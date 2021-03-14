@@ -1,0 +1,51 @@
+- name: Install
+  hosts: routers
+  tasks:
+    - name: Add debian sid repo
+      apt_repository:
+        repo: deb http://deb.debian.org/debian/ sid main
+        state: present
+
+    - name: Add natesales apt repo
+      apt_repository:
+        repo: deb [trusted=yes] https://repo.natesales.net/apt /
+        state: present
+
+    - name: Set default release
+      copy:
+        content: APT::Default-Release "stable";
+        dest: /etc/apt/apt.conf.d/default-release
+
+    - name: Install rsync, bind9, dnsutils, ufw, unbound, bsdmainutils
+      apt:
+        update_cache: yes
+        pkg:
+          - rsync
+          - bind9
+          - curl
+          - dnsutils
+          - ufw
+          - bsdmainutils
+          - bcg
+
+    - name: Install BIRD2 from sid
+      apt:
+        name: bird2
+        default_release: sid
+
+    - name: Create bcg directory
+      file:
+        path: /etc/bcg/
+        state: directory
+
+    - name: Copy bcg config
+      copy:
+        content: "{{ bcg }}"
+        dest: /etc/bcg/config.json
+
+    - name: Add bcg crontab entry
+      cron:
+        name: "bcg update"
+        hour: "*/12"
+        minute: "0"
+        job: "/usr/bin/bcg -c /etc/bcg/config.json"
