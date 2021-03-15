@@ -49,3 +49,20 @@
         hour: "*/12"
         minute: "0"
         job: "/usr/local/bin/bcg -c /etc/bcg/config.json"
+
+    - name: Add BGP aliases
+      copy:
+        content: |
+          alias b="birdc"
+          alias bgps="birdc s p | column -t"
+        dest: /root/.bashrc
+
+    - name: Set sysctl tuning values
+      template:
+        src: sysctl.conf
+        dest: /etc/sysctl.conf
+      register: sysctl
+
+    - name: Reload sysctl values
+      shell: sysctl -p
+      when: sysctl.changed
