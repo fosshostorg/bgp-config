@@ -48,4 +48,4 @@
         name: "bcg update"
         hour: "*/12"
         minute: "0"
-        job: "/usr/bin/bcg -c /etc/bcg/config.json"
+        job: "/usr/local/bin/bcg -c /etc/bcg/config.json"
