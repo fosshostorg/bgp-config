@@ -16,7 +16,7 @@
         content: APT::Default-Release "stable";
         dest: /etc/apt/apt.conf.d/default-release
 
-    - name: Install rsync, bind9, dnsutils, ufw, unbound, bsdmainutils
+    - name: Install required system packages
       apt:
         update_cache: yes
         pkg:
