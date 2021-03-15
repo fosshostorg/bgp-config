@@ -42,6 +42,11 @@
       copy:
         content: "{{ bcg }}"
         dest: /etc/bcg/config.json
+      register: bcg
+
+    - name: Reload bcg config
+      shell: bcg -c /etc/bcg/config.json
+      when: bcg.changed
 
     - name: Add bcg crontab entry
       cron:
