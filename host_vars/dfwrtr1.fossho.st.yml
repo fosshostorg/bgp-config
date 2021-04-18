@@ -1,0 +1,21 @@
+bcg:
+  asn: 34553
+  router-id: 10.32.101.50
+  keep-filtered: true
+
+  peers:
+    Equinix Metal:
+      asn: 65530
+      skip-filter: true
+      type: upstream
+      neighbors:
+        - 10.32.101.49
+        - 2604:1380:4111:b100::1a
+
+    Hampton Moore:
+      asn: 212149
+      type: downstream
+      local-pref: 300
+      neighbors:
+        - 147.75.35.137
+        - 2604:1380:4111:b102::137
